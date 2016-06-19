@@ -25,7 +25,6 @@ after_build:
   - if "%USE_MINGW%"=="1" set DEPLOY_DIR="kernel2_compressor-%GIT_TAG_OR_BRANCH%-win32-xp"
   - echo "%DEPLOY_DIR%"
   - deploy.bat
-  - MOVE *.qm deploy
   - DIR deploy
   - MOVE deploy "%DEPLOY_DIR%"
   - 7z a "%DEPLOY_DIR%.zip" "%DEPLOY_DIR%"
