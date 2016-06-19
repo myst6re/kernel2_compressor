@@ -18,7 +18,8 @@ public:
 	}
 
 	bool open();
-	bool saveOptimized(const QString &fileName) const;
+	bool save(const QString &fileName, bool optimize,
+	          bool doNotBreakFileFormat) const;
 	int uncompressedFileSize() const;
 	int uncompressedFileSizeAfterCleaning() const;
 	int uncompressedFileSizeAfterOptimization() const;

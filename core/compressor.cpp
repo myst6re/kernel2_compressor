@@ -14,9 +14,10 @@ bool Compressor::open()
 	return _kernel2.open(_fileName);
 }
 
-bool Compressor::saveOptimized(const QString &fileName) const
+bool Compressor::save(const QString &fileName, bool optimize,
+                      bool doNotBreakFileFormat) const
 {
-	return _kernel2.save(fileName, true, false);
+	return _kernel2.save(fileName, optimize, doNotBreakFileFormat);
 }
 
 int Compressor::uncompressedFileSize() const

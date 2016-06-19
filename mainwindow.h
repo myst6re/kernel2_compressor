@@ -7,6 +7,7 @@
 
 class QLabel;
 class QPushButton;
+class QComboBox;
 
 class MainWindow : public QWidget
 {
@@ -27,6 +28,7 @@ private:
 
 	QPushButton *_saveAs;
 	QLabel *_display;
+	QComboBox *_saveOptions;
 };
 
 #endif // MAINWINDOW_H
