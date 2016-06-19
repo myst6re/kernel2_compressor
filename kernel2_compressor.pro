@@ -20,7 +20,9 @@ HEADERS  += mainwindow.h \
 
 OTHER_FILES += kernel2_compressor.rc \
     deploy.bat \
-    COPYING
+    .clang-format \
+    .travis.yml \
+    appveyor.yml
 
 DISTFILES += COPYING \
     README.md
