@@ -22,7 +22,8 @@ OTHER_FILES += kernel2_compressor.rc \
     deploy.bat \
     COPYING
 
-DISTFILES += COPYING
+DISTFILES += COPYING \
+    README.md
 
 RESOURCES += kernel2_compressor.qrc \
     kernel2_compressor.qrc
