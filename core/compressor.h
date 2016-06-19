@@ -22,6 +22,7 @@ public:
 	int uncompressedFileSize() const;
 	int uncompressedFileSizeAfterCleaning() const;
 	int uncompressedFileSizeAfterOptimization() const;
+	int uncompressedFileSizeAfterAgressiveOptimization() const;
 private:
 	QString _fileName;
 	Kernel2 _kernel2;
