@@ -1,5 +1,8 @@
 # kernel2 compressor
 
+[![Build Status Linux/OSX](https://travis-ci.org/myst6re/kernel2_compressor.svg?branch=develop)](https://travis-ci.org/myst6re/kernel2_compressor)
+[![Build status Win32](https://ci.appveyor.com/api/projects/status/7sbsalqdtagkjwv3/branch/develop?svg=true)](https://ci.appveyor.com/project/myst6re/kernel2_compressor/branch/develop)
+
 FF7's kernel2 compressor using black magic.
 
 ## Building
