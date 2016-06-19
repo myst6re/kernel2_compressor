@@ -53,3 +53,17 @@ int Compressor::uncompressedFileSizeAfterAgressiveOptimization() const
 
 	return -1;
 }
+
+QString Compressor::infos() const
+{
+	return QObject::tr("Uncompressed size: %1 B\n"
+	                   "Max authorized size: %2 B\n"
+	                   "Cleaned size: %3 B\n"
+	                   "Optimized size: %4 B\n"
+	                   "Optimized best size: %5 B")
+	        .arg(uncompressedFileSize())
+	        .arg(KERNEL2_MAX_UNCOMPRESSED_SIZE)
+	        .arg(uncompressedFileSizeAfterCleaning())
+	        .arg(uncompressedFileSizeAfterOptimization())
+	        .arg(uncompressedFileSizeAfterAgressiveOptimization());
+}

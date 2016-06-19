@@ -124,15 +124,5 @@ void MainWindow::saveFileOptimized(const QString &fileName)
 
 void MainWindow::showFileInfos()
 {
-	_display->setText(
-	    tr("Uncompressed size: %1 B\n"
-	       "Max authorized size: %2 B\n"
-	       "Cleaned size: %3 B\n"
-	       "Optimized size: %4 B\n"
-	       "Optimized best size: %5 B")
-	        .arg(_compressor.uncompressedFileSize())
-	        .arg(KERNEL2_MAX_UNCOMPRESSED_SIZE)
-	        .arg(_compressor.uncompressedFileSizeAfterCleaning())
-	        .arg(_compressor.uncompressedFileSizeAfterOptimization())
-	        .arg(_compressor.uncompressedFileSizeAfterAgressiveOptimization()));
+	_display->setText(_compressor.infos());
 }
