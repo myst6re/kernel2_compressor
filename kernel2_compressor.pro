@@ -33,3 +33,18 @@ RESOURCES += kernel2_compressor.qrc \
 win32 {
     RC_FILE = kernel2_compressor.rc
 }
+
+# Console version
+configCONSOLE {
+    CONFIG += console
+    CONFIG -= app_bundle
+    QT -= winextras widgets gui testlib
+
+    DEFINES += KERNEL2_CONSOLE
+
+    SOURCES -= mainwindow.cpp
+
+    HEADERS -= mainwindow.h
+
+
+}
