@@ -193,7 +193,7 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 	QByteArray sectionToc;
 	textID = 0;
 	foreach (const Kernel2TocInfos &infos, toc) {
-		quint16 pos;
+		int bigPos;
 		if (infos.padding != 0) {
 			const Kernel2TocInfos &pointedInfos = toc.at(infos.position);
 			if (pointedInfos.padding != 0) {
@@ -201,23 +201,25 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 				           << "multiple infos recursions";
 				return false; // FIXME: handle this error
 			}
-			int bigPos = pointedInfos.position + infos.padding;
-			if (bigPos > 65535) {
-				qWarning() << "Kernel2::saveSection error"
-				           << "position overflow";
-				return false;
-			}
-
+			bigPos = pointedInfos.position + infos.padding;
 			toc[textID].position = bigPos;
-			pos = quint16(bigPos);
+		} else {
+			bigPos = infos.position;
 		}
-		sectionToc.append((char *)&pos, 2);
+		// Check if cast is safe
+		if (bigPos > 65535) {
+			qWarning() << "Kernel2::saveSection error"
+			           << "position overflow";
+			return false;
+		}
+		quint16 pos = quint16(bigPos);
+		sectionToc.append(reinterpret_cast<char *>(&pos), 2);
 		++textID;
 	}
 
-	int sectionSize = sectionToc.size() + sectionData.size();
+	qint32 sectionSize = sectionToc.size() + sectionData.size();
 
-	data.append((char *)&sectionSize, 4)
+	data.append(reinterpret_cast<char *>(&sectionSize), 4)
 			.append(sectionToc)
 			.append(sectionData);
 
@@ -238,13 +240,12 @@ bool Kernel2::save(QByteArray &data, bool sharedData,
                    bool doNotBreakFileFormat) const
 {
 	QByteArray decData;
-	int lzsSize;
 
 	saveUncompressed(decData, sharedData, doNotBreakFileFormat);
 
 	data = LZS::compress(decData);
-	lzsSize = data.size();
-	data.prepend((char *)&lzsSize, 4);
+	qint32 lzsSize = data.size();
+	data.prepend(reinterpret_cast<char *>(&lzsSize), 4);
 
 	return true;
 }
