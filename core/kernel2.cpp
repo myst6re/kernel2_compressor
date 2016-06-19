@@ -96,10 +96,10 @@ bool Kernel2::checkIntegrity() const
 	return false;
 }
 
-bool Kernel2::save(const QString &path, bool ghostData, bool sharedData) const
+bool Kernel2::save(const QString &path, bool sharedData) const
 {
 	QByteArray data;
-	if (!save(data, ghostData, sharedData)) {
+	if (!save(data, sharedData)) {
 		return false;
 	}
 
@@ -114,7 +114,7 @@ bool Kernel2::save(const QString &path, bool ghostData, bool sharedData) const
 }
 
 bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
-                          bool ghostData, bool sharedData) const
+                          bool sharedData) const
 {
 	QList<quint32> toc;
 	QByteArray sectionData;
@@ -123,17 +123,6 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 
 	foreach (const QByteArray &text, texts) {
 		bool optimized = false;
-		int index = FF7Text::indexOfFF(text);
-		QByteArray optiText;
-
-		// FIXME: no more ghost data with the way kernel2 is opened
-		if (ghostData && index != -1 && index + 1 != text.size()) {
-			// Remove ghost data
-			optiText = text.left(index + 1);
-			qDebug() << "ghost data" << optiText.endsWith('\xff');
-		} else {
-			optiText = text;
-		}
 
 		if (sharedData) {
 			for (int i = 0; i < texts.size(); ++i) {
@@ -141,38 +130,38 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 					continue;
 				}
 				const QByteArray &text2 = texts.at(i);
-				if (text2.endsWith(optiText)) {
+				if (text2.endsWith(text)) {
 					if (i < toc.size()) {
 						if((toc.at(i) & 0x80000000) == 0) {
 							toc.append(toc.at(i)
-							           + (text2.size() - optiText.size()));
+							           + (text2.size() - text.size()));
 						} else {
 							int padd = (toc.at(i) >> 16) & 0x7FFF;
 							qDebug() << (toc.at(i) & 0xFFFF)
 							         << padd
 							         << (padd
-							             + (text2.size() - optiText.size()));
+							             + (text2.size() - text.size()));
 							toc.append(int(toc.at(i) & 0xFFFF) |
 							           (((padd + (text2.size()
-							                      - optiText.size()))
+							                      - text.size()))
 							             & 0x7FFF) << 16) | 0x80000000);
 						}
 						qDebug() << textID << "text endsWith"
 						         << FF7Text(text2).text(false)
-						         << text2.mid(text2.size() - optiText.size())
+						         << text2.mid(text2.size() - text.size())
 						            .toHex()
-						         << FF7Text(optiText).text(false)
-						         << optiText.toHex() << "before"
-						         << i << (text2.size() - optiText.size());
-					} else if (optiText != text2) {
+						         << FF7Text(text).text(false)
+						         << text.toHex() << "before"
+						         << i << (text2.size() - text.size());
+					} else if (text != text2) {
 						qDebug() << textID << "text endsWith"
 						         << FF7Text(text2).text(false)
-						         << text2.mid(text2.size() - optiText.size())
-						            .toHex() << FF7Text(optiText).text(false)
-						         << optiText.toHex() << "after" << i
-						         << (text2.size() - optiText.size());
+						         << text2.mid(text2.size() - text.size())
+						            .toHex() << FF7Text(text).text(false)
+						         << text.toHex() << "after" << i
+						         << (text2.size() - text.size());
 						toc.append((i & 0xFFFF) |
-						           (((text2.size() - optiText.size()) & 0x7FFF)
+						           (((text2.size() - text.size()) & 0x7FFF)
 						            << 16) | 0x80000000);
 					} else {
 						continue;
@@ -185,7 +174,7 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 
 		if(!optimized) {
 			toc.append(posDataStart + sectionData.size());
-			sectionData.append(optiText);
+			sectionData.append(text);
 		}
 
 		++textID;
@@ -219,22 +208,21 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 	return true;
 }
 
-bool Kernel2::saveUncompressed(QByteArray &data, bool ghostData,
-                               bool sharedData) const
+bool Kernel2::saveUncompressed(QByteArray &data, bool sharedData) const
 {
 	foreach (const QList<QByteArray> &texts, sections) {
-		saveSection(texts, data, ghostData, sharedData);
+		saveSection(texts, data, sharedData);
 	}
 
 	return true;
 }
 
-bool Kernel2::save(QByteArray &data, bool ghostData, bool sharedData) const
+bool Kernel2::save(QByteArray &data, bool sharedData) const
 {
 	QByteArray decData;
 	int lzsSize;
 
-	saveUncompressed(decData, ghostData, sharedData);
+	saveUncompressed(decData, sharedData);
 
 	data = LZS::compress(decData);
 	lzsSize = data.size();
@@ -249,7 +237,7 @@ bool Kernel2::extractSection(const QList<QByteArray> &texts,
 	QByteArray data;
 	QFile f(path);
 	if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-		saveSection(texts, data, false, false);
+		saveSection(texts, data, false);
 		f.write(data.constData() + 4, data.size() - 4);
 		return true;
 	}

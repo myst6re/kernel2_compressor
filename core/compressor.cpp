@@ -16,7 +16,7 @@ bool Compressor::open()
 
 bool Compressor::saveOptimized(const QString &fileName) const
 {
-	return _kernel2.save(fileName, true, true);
+	return _kernel2.save(fileName, true);
 }
 
 int Compressor::uncompressedFileSize() const
@@ -27,7 +27,7 @@ int Compressor::uncompressedFileSize() const
 int Compressor::uncompressedFileSizeAfterCleaning() const
 {
 	QByteArray data;
-	if (_kernel2.saveUncompressed(data, true, false)) {
+	if (_kernel2.saveUncompressed(data, false)) {
 		return data.size();
 	}
 
@@ -37,7 +37,7 @@ int Compressor::uncompressedFileSizeAfterCleaning() const
 int Compressor::uncompressedFileSizeAfterOptimization() const
 {
 	QByteArray data;
-	if (_kernel2.saveUncompressed(data, true, true)) {
+	if (_kernel2.saveUncompressed(data, true)) {
 		return data.size();
 	}
 

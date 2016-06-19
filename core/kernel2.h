@@ -13,9 +13,9 @@ public:
 	bool open(const QString &path);
 	bool open(const QByteArray &data);
 	bool checkIntegrity() const;
-	bool save(const QString &path, bool ghostData, bool sharedData) const;
-	bool saveUncompressed(QByteArray &data, bool ghostData, bool sharedData) const;
-	bool save(QByteArray &data, bool ghostData, bool sharedData) const;
+	bool save(const QString &path, bool sharedData) const;
+	bool saveUncompressed(QByteArray &data, bool sharedData) const;
+	bool save(QByteArray &data, bool sharedData) const;
 	bool extractAll(const QString &dirPath, const QString &filename) const;
 	inline const QList<QByteArray> &texts(int id) const {
 		return sections.at(id);
@@ -25,7 +25,7 @@ public:
 	}
 private:
 	bool saveSection(const QList<QByteArray> &texts, QByteArray &data,
-	                 bool ghostData, bool sharedData) const;
+	                 bool sharedData) const;
 	bool extractSection(const QList<QByteArray> &texts,
 	                    const QString &path) const;
 	QList< QList<QByteArray> > sections;
