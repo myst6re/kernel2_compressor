@@ -51,6 +51,19 @@ qmake /path/to/kernel2_compressor.pro
 make
 ~~~
 
+## Deploy
+
+### On Windows
+
+Go to a directory where the file `release\kernel2_compressor.exe` can be found.
+
+~~~sh
+cd path/to/build/directory
+/path/to/source/directory/deploy.bat
+~~~
+
+This will create a directory `deploy` in the build directory with needed DLL's.
+
 ## How to contribute
 
 Pull requests are welcome on [GitHub](https://github.com/myst6re/kernel2_compressor).

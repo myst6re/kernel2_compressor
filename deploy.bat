@@ -13,6 +13,9 @@ rem Deploy DLLs
 rem Removing unused DLLs
 del /q %OUTPUT_DIR%\opengl32sw.dll
 
+rem Removing unused plugins
+rmdir /s /q %OUTPUT_DIR%\imageformats
+
 rem Deploy Exe
 xcopy /y %EXE_PATH% %OUTPUT_DIR%
 
