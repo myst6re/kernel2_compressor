@@ -10,10 +10,12 @@ public:
 	Compressor();
 	explicit Compressor(const QString &fileName);
 
-	inline const QString &fileName() const {
+	inline const QString &fileName() const
+	{
 		return _fileName;
 	}
-	inline void setFileName(const QString &fileName) {
+	inline void setFileName(const QString &fileName)
+	{
 		_fileName = fileName;
 	}
 
@@ -24,6 +26,7 @@ public:
 	int uncompressedFileSizeAfterCleaning() const;
 	int uncompressedFileSizeAfterOptimization() const;
 	int uncompressedFileSizeAfterAgressiveOptimization() const;
+
 private:
 	QString _fileName;
 	Kernel2 _kernel2;

@@ -8,17 +8,15 @@
 #include <QComboBox>
 #include "global.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QWidget(parent)
+MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 {
 	setWindowTitle(PROG_FULLNAME);
 	resize(320, 240);
 
-	QPushButton *selectFile = new QPushButton(tr("Open kernel2.bin file..."),
-	                                          this);
+	QPushButton *selectFile =
+	    new QPushButton(tr("Open kernel2.bin file..."), this);
 
-	_saveAs = new QPushButton(tr("Save kernel2.bin file as..."),
-	                          this);
+	_saveAs = new QPushButton(tr("Save kernel2.bin file as..."), this);
 	_saveAs->setEnabled(false);
 
 	_display = new QLabel(this);
@@ -53,9 +51,10 @@ void MainWindow::selectFile()
 
 	filter << tr("BIN files (*.bin)") << tr("All files (*)");
 
-	fileName = QFileDialog::getOpenFileName(this, tr("Open kernel2.bin file"),
-	                             QString(), // TODO: directory
-	                             filter.join(";;")); // TODO: selectedFilter
+	fileName =
+	    QFileDialog::getOpenFileName(this, tr("Open kernel2.bin file"),
+	                                 QString(), // TODO: directory
+	                                 filter.join(";;")); // TODO: selectedFilter
 
 	if (fileName.isNull()) {
 		return;
@@ -71,9 +70,10 @@ void MainWindow::saveAs()
 
 	filter << tr("BIN files (*.bin)") << tr("All files (*)");
 
-	fileName = QFileDialog::getSaveFileName(this, tr("Open kernel2.bin file"),
-	                             QString(), // TODO: directory
-	                             filter.join(";;")); // TODO: selectedFilter
+	fileName =
+	    QFileDialog::getSaveFileName(this, tr("Open kernel2.bin file"),
+	                                 QString(), // TODO: directory
+	                                 filter.join(";;")); // TODO: selectedFilter
 
 	if (fileName.isNull()) {
 		return;
@@ -124,17 +124,15 @@ void MainWindow::saveFileOptimized(const QString &fileName)
 
 void MainWindow::showFileInfos()
 {
-	_display->setText(tr("Uncompressed size: %1 B\n"
-	                     "Max authorized size: %2 B\n"
-	                     "Cleaned size: %3 B\n"
-	                     "Optimized size: %4 B\n"
-	                     "Optimized best size: %5 B")
-	                  .arg(_compressor.uncompressedFileSize())
-	                  .arg(KERNEL2_MAX_UNCOMPRESSED_SIZE)
-	                  .arg(_compressor.uncompressedFileSizeAfterCleaning())
-	                  .arg(_compressor.uncompressedFileSizeAfterOptimization())
-	                  .arg(_compressor.uncompressedFileSizeAfterAgressiveOptimization())
-	                  );
+	_display->setText(
+	    tr("Uncompressed size: %1 B\n"
+	       "Max authorized size: %2 B\n"
+	       "Cleaned size: %3 B\n"
+	       "Optimized size: %4 B\n"
+	       "Optimized best size: %5 B")
+	        .arg(_compressor.uncompressedFileSize())
+	        .arg(KERNEL2_MAX_UNCOMPRESSED_SIZE)
+	        .arg(_compressor.uncompressedFileSizeAfterCleaning())
+	        .arg(_compressor.uncompressedFileSizeAfterOptimization())
+	        .arg(_compressor.uncompressedFileSizeAfterAgressiveOptimization()));
 }
-
-

@@ -28,16 +28,18 @@ public:
 	const QByteArray &data() const;
 	QString text(bool jp, bool simplified = false) const;
 	void setText(const QString &text, bool jp);
-	inline bool operator ==(const FF7Text &t2) const {
+	inline bool operator==(const FF7Text &t2) const
+	{
 		return data() == t2.data();
 	}
-	inline bool operator !=(const FF7Text &t2) const {
+	inline bool operator!=(const FF7Text &t2) const
+	{
 		return data() != t2.data();
 	}
 	static int indexOfFF(const QByteArray &data, int indexOfText = 0);
 
 private:
-	static QString getCaract(quint8 ord, quint8 table=0);
+	static QString getCaract(quint8 ord, quint8 table = 0);
 	static const char *caract[256];
 	static const char *caract_jp[256];
 	static const char *caract_jp_fa[256];

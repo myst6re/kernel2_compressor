@@ -2,13 +2,14 @@
 #include "core/lzs.h"
 
 struct Kernel2TocInfos {
-	explicit Kernel2TocInfos(int position = 0, int padding = 0) :
-	    position(position), padding(padding) {}
+	explicit Kernel2TocInfos(int position = 0, int padding = 0)
+	    : position(position), padding(padding)
+	{
+	}
 	int position, padding;
 };
 
-Kernel2::Kernel2() :
-    _uncompressedDataSize(-1)
+Kernel2::Kernel2() : _uncompressedDataSize(-1)
 {
 }
 
@@ -33,7 +34,7 @@ bool Kernel2::open(const QByteArray &data)
 
 	memcpy(&lzsSize, data.constData(), 4); // LIMITATION: signed int
 
-	if(lzsSize + 4 != dataSize) {
+	if (lzsSize + 4 != dataSize) {
 		return false;
 	}
 
@@ -45,7 +46,8 @@ bool Kernel2::open(const QByteArray &data)
 
 	int pos = 0;
 
-	forever {
+	forever
+	{
 		// End of file
 		if (pos == _uncompressedDataSize) {
 			break;
@@ -81,8 +83,8 @@ bool Kernel2::open(const QByteArray &data)
 			int index = FF7Text::indexOfFF(decData, pos + position);
 			if (index != -1) {
 				names.append(decData.mid(
-				            pos + position,
-				            qMin((index + 1) - (pos + position), sectionSize)));
+				    pos + position,
+				    qMin((index + 1) - (pos + position), sectionSize)));
 			} else {
 				names.append(decData.mid(pos + position, sectionSize));
 			}
@@ -126,7 +128,6 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 		bool optimized = false;
 
 		if (sharedData) {
-
 			for (int i = 0; i < texts.size(); i += 1) {
 				if (i == textID) { // Every other texts
 					continue;
@@ -136,19 +137,17 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 					Kernel2TocInfos tocInfos;
 					int diffSize = text2.size() - text.size();
 
-					qDebug() << "Kernel2::saveSection"
-					         << textID << "text endsWith"
-					         << FF7Text(text2).text(false)
+					qDebug() << "Kernel2::saveSection" << textID
+					         << "text endsWith" << FF7Text(text2).text(false)
 					         << text2.mid(diffSize).toHex()
-					         << FF7Text(text).text(false)
-					         << text.toHex();
+					         << FF7Text(text).text(false) << text.toHex();
 
 					if (i < toc.size()) { // Update from existing toc entry
 						const Kernel2TocInfos &existingInfos = toc.at(i);
-						if(toc.at(i).padding == 0) {
+						if (toc.at(i).padding == 0) {
 							// Direct position
 							tocInfos.position =
-									existingInfos.position + diffSize;
+							    existingInfos.position + diffSize;
 						} else {
 							// Update padding
 							tocInfos.position = existingInfos.position;
@@ -156,8 +155,8 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 						}
 
 						qDebug() << "Kernel2::saveSection"
-						         << "update existing toc entry"
-						         << i << diffSize;
+						         << "update existing toc entry" << i
+						         << diffSize;
 					} else if (!doNotBreakFileFormat && diffSize != 0) {
 						/* If texts are equals, it will be merged later
 						 * This will break the file format by reordering the toc
@@ -167,8 +166,7 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 
 						qDebug() << "Kernel2::saveSection"
 						         << "create special toc entry"
-						         << tocInfos.position
-						         << tocInfos.padding;
+						         << tocInfos.position << tocInfos.padding;
 					} else {
 						continue;
 					}
@@ -182,7 +180,7 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 			optimized = true;
 		}
 
-		if(!optimized) {
+		if (!optimized) {
 			toc.append(Kernel2TocInfos(posDataStart + sectionData.size()));
 			sectionData.append(text);
 		}
@@ -220,8 +218,8 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 	qint32 sectionSize = sectionToc.size() + sectionData.size();
 
 	data.append(reinterpret_cast<char *>(&sectionSize), 4)
-			.append(sectionToc)
-			.append(sectionData);
+	    .append(sectionToc)
+	    .append(sectionData);
 
 	return true;
 }

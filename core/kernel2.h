@@ -19,18 +19,21 @@ public:
 	bool save(QByteArray &data, bool sharedData,
 	          bool doNotBreakFileFormat) const;
 	bool extractAll(const QString &dirPath, const QString &filename) const;
-	inline const QList<QByteArray> &texts(int id) const {
+	inline const QList<QByteArray> &texts(int id) const
+	{
 		return sections.at(id);
 	}
-	inline int uncompressedDataSize() const {
+	inline int uncompressedDataSize() const
+	{
 		return _uncompressedDataSize;
 	}
+
 private:
 	bool saveSection(const QList<QByteArray> &texts, QByteArray &data,
 	                 bool sharedData, bool doNotBreakFileFormat) const;
 	bool extractSection(const QList<QByteArray> &texts,
 	                    const QString &path) const;
-	QList< QList<QByteArray> > sections;
+	QList<QList<QByteArray>> sections;
 	int _uncompressedDataSize;
 };
 

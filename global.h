@@ -15,10 +15,10 @@
  ** You should have received a copy of the GNU General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-#define PROG_NAME		"kernel2 compressor"
-#define PROG_VERSION	"0.1"
-#define PROG_FULLNAME	QString("%1 %2").arg(PROG_NAME, PROG_VERSION)
+#define PROG_NAME "kernel2 compressor"
+#define PROG_VERSION "0.1"
+#define PROG_FULLNAME QString("%1 %2").arg(PROG_NAME, PROG_VERSION)
 
-#define RC_PRODUCT_VERSION			0,1,0,0
-#define RC_FILE_DESCRIPTION_STR		"FF7's kernel2 compressor using black magic."
-#define RC_COMPANY_NAME_STR			"myst6re"
+#define RC_PRODUCT_VERSION 0, 1, 0, 0
+#define RC_FILE_DESCRIPTION_STR "FF7's kernel2 compressor using black magic."
+#define RC_COMPANY_NAME_STR "myst6re"

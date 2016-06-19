@@ -4,8 +4,7 @@ Compressor::Compressor()
 {
 }
 
-Compressor::Compressor(const QString &fileName) :
-    _fileName(fileName)
+Compressor::Compressor(const QString &fileName) : _fileName(fileName)
 {
 }
 
