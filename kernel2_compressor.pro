@@ -30,9 +30,6 @@ OTHER_FILES += kernel2_compressor.rc \
 DISTFILES += COPYING \
     README.md
 
-RESOURCES += kernel2_compressor.qrc \
-    kernel2_compressor.qrc
-
 win32 {
     RC_FILE = kernel2_compressor.rc
 }

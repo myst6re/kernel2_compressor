@@ -1,10 +1,6 @@
 #include <windows.h>
 #include "global.h"
 
-#ifdef KERNEL2ICON
-IDI_ICON1   ICON   DISCARDABLE   "images/icon.ico"
-#endif
-
 VS_VERSION_INFO VERSIONINFO
 	FILEVERSION			RC_PRODUCT_VERSION
 	PRODUCTVERSION		RC_PRODUCT_VERSION
