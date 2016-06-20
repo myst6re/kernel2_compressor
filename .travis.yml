@@ -8,7 +8,7 @@ install:
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
          lsb_release -a
       && sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
-      && sudo apt-add-repository -y ppa:beineri/opt-qt56
+      && sudo apt-add-repository -y ppa:ubuntu-sdk-team/ppa
       && sudo apt-get -qq update
       && sudo apt-get -qq install -y g++-4.9 libc6-i386 qtbase5-dev
       && export CXX="g++-4.9"
