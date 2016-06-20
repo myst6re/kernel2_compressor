@@ -29,7 +29,13 @@ before_script:
     fi
   - mkdir -p build
   - cd build
-  - qmake -config release ..
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
+      qmake -qt=qt5 -config release ..
+      ;
+    else
+      qmake -config release ..
+      ;
+    fi
 
 script:
   - make -j2
