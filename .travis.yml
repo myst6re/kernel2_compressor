@@ -10,9 +10,8 @@ install:
       && sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
       && sudo apt-add-repository -y ppa:beineri/opt-qt56
       && sudo apt-get -qq update
-      && sudo apt-get -qq install -y g++-4.8 libc6-i386 freeglut3-dev qt56tools qt56base qt56translations qt56imageformats
-      && export CXX="g++-4.8"
-      && export CC="gcc-4.8"
+      && sudo apt-get -qq install -y g++-4.9 libc6-i386 qtbase5-dev
+      && export CXX="g++-4.9"
       ;
     else
          brew update > /dev/null
