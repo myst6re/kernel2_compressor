@@ -33,7 +33,7 @@ private:
 	                 bool sharedData, bool doNotBreakFileFormat) const;
 	bool extractSection(const QList<QByteArray> &texts,
 	                    const QString &path) const;
-	QList<QList<QByteArray>> sections;
+	QList< QList<QByteArray> > sections;
 	int _uncompressedDataSize;
 };
 
