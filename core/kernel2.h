@@ -27,14 +27,26 @@ public:
 	{
 		return _uncompressedDataSize;
 	}
+	QString errorString() const;
 
 private:
+	enum Error {
+		Ok,
+		TooShortError,
+		LzsHeaderError,
+		SectionHeaderError
+	};
+
 	bool saveSection(const QList<QByteArray> &texts, QByteArray &data,
 	                 bool sharedData, bool doNotBreakFileFormat) const;
 	bool extractSection(const QList<QByteArray> &texts,
 	                    const QString &path) const;
+	inline void setError(Error error) {
+		_error = error;
+	}
 	QList< QList<QByteArray> > sections;
 	int _uncompressedDataSize;
+	Error _error;
 };
 
 #endif // KERNEL2_H

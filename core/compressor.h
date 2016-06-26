@@ -19,10 +19,19 @@ public:
 		_fileName = fileName;
 	}
 
-	bool open();
-	bool save(const QString &fileName, bool optimize,
-	          bool doNotBreakFileFormat) const;
-	int uncompressedFileSize() const;
+	inline bool open() {
+		return _kernel2.open(_fileName);
+	}
+	inline bool save(const QString &fileName, bool optimize,
+	          bool doNotBreakFileFormat) const {
+		return _kernel2.save(fileName, optimize, doNotBreakFileFormat);
+	}
+	inline QString errorString() const {
+		return _kernel2.errorString();
+	}
+	inline int uncompressedFileSize() const {
+		return _kernel2.uncompressedDataSize();
+	}
 	int uncompressedFileSizeAfterCleaning() const;
 	int uncompressedFileSizeAfterOptimization() const;
 	int uncompressedFileSizeAfterAgressiveOptimization() const;

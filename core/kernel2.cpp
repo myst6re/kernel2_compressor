@@ -29,12 +29,14 @@ bool Kernel2::open(const QByteArray &data)
 	const int dataSize = data.size();
 
 	if (dataSize < 4) {
+		setError(TooShortError);
 		return false;
 	}
 
 	memcpy(&lzsSize, data.constData(), 4); // LIMITATION: signed int
 
 	if (lzsSize + 4 != dataSize) {
+		setError(LzsHeaderError);
 		return false;
 	}
 
@@ -46,14 +48,14 @@ bool Kernel2::open(const QByteArray &data)
 
 	int pos = 0;
 
-	forever
-	{
+	forever {
 		// End of file
 		if (pos == _uncompressedDataSize) {
 			break;
 		}
 
 		if (_uncompressedDataSize < pos + 4) {
+			setError(TooShortError);
 			return false;
 		}
 
@@ -64,6 +66,7 @@ bool Kernel2::open(const QByteArray &data)
 		pos += 4;
 
 		if (_uncompressedDataSize < pos + sectionSize) {
+			setError(SectionHeaderError);
 			return false;
 		}
 
@@ -273,4 +276,19 @@ bool Kernel2::extractAll(const QString &dirPath, const QString &filename) const
 		++sectionID;
 	}
 	return true;
+}
+
+QString Kernel2::errorString() const
+{
+	switch (_error) {
+	case Ok:
+		return "OK";
+	case TooShortError:
+		return "Too short error";
+	case LzsHeaderError:
+		return "LZS header error";
+	case SectionHeaderError:
+		return "Section header error";
+	}
+	return QString();
 }
