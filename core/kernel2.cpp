@@ -25,7 +25,6 @@ bool Kernel2::open(const QString &path)
 
 bool Kernel2::open(const QByteArray &data)
 {
-	int lzsSize;
 	const int dataSize = data.size();
 
 	if (dataSize < 4) {
@@ -33,18 +32,17 @@ bool Kernel2::open(const QByteArray &data)
 		return false;
 	}
 
-	memcpy(&lzsSize, data.constData(), 4); // LIMITATION: signed int
+	QByteArray decData = LZS::decompressAll(data.constData() + 4, dataSize - 4);
 
-	if (lzsSize + 4 != dataSize) {
-		setError(LzsHeaderError);
+	if (decData.isEmpty()) {
+		setError(LzsError);
 		return false;
 	}
 
-	QByteArray decData = LZS::decompressAll(data.constData() + 4, lzsSize);
 	const char *constData = decData.constData();
 	_uncompressedDataSize = decData.size();
 
-	sections.clear();
+	_sections.clear();
 
 	int pos = 0;
 
@@ -93,10 +91,12 @@ bool Kernel2::open(const QByteArray &data)
 			}
 		}
 
-		sections.append(names);
+		_sections.append(names);
 
 		pos += sectionSize;
 	}
+
+	setError(Ok);
 
 	return true;
 }
@@ -230,7 +230,7 @@ bool Kernel2::saveSection(const QList<QByteArray> &texts, QByteArray &data,
 bool Kernel2::saveUncompressed(QByteArray &data, bool sharedData,
                                bool doNotBreakFileFormat) const
 {
-	foreach (const QList<QByteArray> &texts, sections) {
+	foreach (const QList<QByteArray> &texts, _sections) {
 		saveSection(texts, data, sharedData, doNotBreakFileFormat);
 	}
 
@@ -269,7 +269,7 @@ bool Kernel2::extractAll(const QString &dirPath, const QString &filename) const
 	QDir dir(dirPath);
 	int sectionID = 9;
 
-	foreach (const QList<QByteArray> &texts, sections) {
+	foreach (const QList<QByteArray> &texts, _sections) {
 		if (!extractSection(texts, dir.filePath(filename.arg(sectionID)))) {
 			return false;
 		}
@@ -285,8 +285,8 @@ QString Kernel2::errorString() const
 		return "OK";
 	case TooShortError:
 		return "Too short error";
-	case LzsHeaderError:
-		return "LZS header error";
+	case LzsError:
+		return "LZS compression error";
 	case SectionHeaderError:
 		return "Section header error";
 	}

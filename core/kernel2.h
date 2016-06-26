@@ -19,12 +19,10 @@ public:
 	bool save(QByteArray &data, bool sharedData,
 	          bool doNotBreakFileFormat) const;
 	bool extractAll(const QString &dirPath, const QString &filename) const;
-	inline const QList<QByteArray> &texts(int id) const
-	{
-		return sections.at(id);
+	inline const QList< QList<QByteArray> > &sections() const {
+		return _sections;
 	}
-	inline int uncompressedDataSize() const
-	{
+	inline int uncompressedDataSize() const {
 		return _uncompressedDataSize;
 	}
 	QString errorString() const;
@@ -33,7 +31,7 @@ private:
 	enum Error {
 		Ok,
 		TooShortError,
-		LzsHeaderError,
+		LzsError,
 		SectionHeaderError
 	};
 
@@ -44,7 +42,7 @@ private:
 	inline void setError(Error error) {
 		_error = error;
 	}
-	QList< QList<QByteArray> > sections;
+	QList< QList<QByteArray> > _sections;
 	int _uncompressedDataSize;
 	Error _error;
 };
