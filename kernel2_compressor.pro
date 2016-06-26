@@ -1,4 +1,4 @@
-QT += core gui widgets testlib
+QT += core gui widgets
 
 TARGET = kernel2_compressor
 TEMPLATE = app
@@ -10,16 +10,14 @@ SOURCES += main.cpp \
     core/compressor.cpp \
     core/kernel2.cpp \
     core/ff7text.cpp \
-    core/lzs.cpp \
-    tests/kernel2generator.cpp
+    core/lzs.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS += mainwindow.h \
     core/compressor.h \
     core/kernel2.h \
     core/ff7text.h \
     core/lzs.h \
-    global.h \
-    tests/kernel2generator.h
+    global.h
 
 OTHER_FILES += kernel2_compressor.rc \
     deploy.bat \
@@ -50,4 +48,19 @@ configCONSOLE {
 
     HEADERS += maincli.h
 
+}
+
+# Tests
+configTEST {
+    QT += testlib
+    CONFIG += testcase
+
+    SOURCES += tests/test.cpp \
+        tests/kernel2generator.cpp \
+        tests/kernel2test.cpp
+
+    HEADERS += tests/kernel2generator.h \
+        tests/kernel2test.h
+
+    SOURCES -= main.cpp
 }
