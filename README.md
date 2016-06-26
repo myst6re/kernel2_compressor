@@ -54,6 +54,17 @@ qmake /path/to/kernel2_compressor.pro
 make
 ~~~
 
+## Building special versions
+
+To compile the console or the test version, add to the qmake arguments
+respectively `CONFIG+="configCONSOLE"` or `CONFIG+="configTEST"`.
+
+~~~sh
+qmake /path/to/kernel2_compressor.pro CONFIG+="configCONSOLE"
+~~~
+
+On Qt Creator, you can change this in the project configuration.
+
 ## Deploy
 
 ### On Windows
