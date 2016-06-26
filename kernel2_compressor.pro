@@ -47,7 +47,6 @@ configCONSOLE {
     SOURCES += maincli.cpp
 
     HEADERS += maincli.h
-
 }
 
 # Tests
@@ -55,12 +54,12 @@ configTEST {
     QT += testlib
     CONFIG += testcase
 
+    SOURCES -= main.cpp
+
     SOURCES += tests/test.cpp \
         tests/kernel2generator.cpp \
         tests/kernel2test.cpp
 
     HEADERS += tests/kernel2generator.h \
         tests/kernel2test.h
-
-    SOURCES -= main.cpp
 }
