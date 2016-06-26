@@ -24,6 +24,7 @@ private:
 	void openFile(const QString &fileName);
 	void saveFileOptimized(const QString &fileName);
 	void showFileInfos();
+	void showError();
 
 	Compressor _compressor;
 

@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QLabel>
 #include <QComboBox>
+#include <QMessageBox>
 #include "global.h"
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
@@ -86,7 +87,7 @@ void MainWindow::openFile(const QString &fileName)
 {
 	_compressor.setFileName(fileName);
 	if (!_compressor.open()) {
-		// TODO: error message
+		showError();
 		return;
 	}
 	_saveAs->setEnabled(true);
@@ -117,12 +118,16 @@ void MainWindow::saveFileOptimized(const QString &fileName)
 	}
 
 	if (!_compressor.save(fileName, optimized, doNotBreakFileFormat)) {
-		// TODO: error message
-		return;
+		showError();
 	}
 }
 
 void MainWindow::showFileInfos()
 {
 	_display->setText(_compressor.infos());
+}
+
+void MainWindow::showError()
+{
+	_display->setText(_compressor.errorString());
 }
