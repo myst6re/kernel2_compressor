@@ -75,7 +75,8 @@ bool Kernel2::open(const QByteArray &data)
 			quint16 position;
 			memcpy(&position, constData + pos + i * 2, 2);
 			if (position >= sectionSize) {
-				break;
+				setError(SectionTocError);
+				return false;
 			}
 			if (position < minPosition) {
 				minPosition = position;
@@ -289,6 +290,8 @@ QString Kernel2::errorString() const
 		return "LZS compression error";
 	case SectionHeaderError:
 		return "Section header error";
+	case SectionTocError:
+		return "Section toc error";
 	}
 	return QString();
 }

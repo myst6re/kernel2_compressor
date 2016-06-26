@@ -32,7 +32,8 @@ private:
 		Ok,
 		TooShortError,
 		LzsError,
-		SectionHeaderError
+		SectionHeaderError,
+		SectionTocError
 	};
 
 	bool saveSection(const QList<QByteArray> &texts, QByteArray &data,
